@@ -1,0 +1,128 @@
+.popup {
+    height: 100vh;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba($color-black, 0.5);
+    @include flex(center, center, row);
+    z-index: -99;
+    opacity: 0;
+    visibility: hidden;
+
+    &__close {
+        position: absolute;
+        top: 0;
+        right: 2rem;
+
+        a {
+            cursor: pointer;
+            color: $gray-text;
+            transition: color 0.5s;
+            font-size: 6rem;
+            font-weight: 300;
+
+            &:hover {
+                color: $color-primary;
+            }
+        }
+    }
+
+    &__form {
+        @include flex(center, center, column);
+        flex-wrap: wrap;
+        min-height: 70vh;
+        background-color: $color-white;
+        border-radius: $round-border;
+        padding: 0 5rem;
+
+        @media only screen and (max-width: $small-screen) {
+            width: 100%;
+            height: 100%;
+            overflow: scroll;
+        }
+
+        @media only screen and (max-height: 350px) {
+            height: 100%;
+        }
+
+        &__group {
+            margin-bottom: 5rem;
+            width: 100%;
+        }
+
+        &__heading {
+            margin-bottom: 3.75rem;
+            color: $color-primary;
+        }
+
+        &__label {
+            display: block;
+            // padding-left: 1.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        &__input {
+            width: 100%;
+            padding: 1.25rem 2rem;
+            border-radius: $round-border;
+            border: 1px solid $color-primary;
+            transition: all 0.2s;
+
+            &:hover,
+            &:focus {
+                box-shadow: $box-shadow;
+            }
+        }
+
+        &__checkbox {
+            display: flex;
+            justify-content: start;
+            align-items: center;
+
+            &--label {
+                padding-left: 2rem;
+            }
+        }
+    }
+
+    &:target {
+        opacity: 1;
+        z-index: 99;
+        visibility: visible;
+        transition: all 0.5s;
+    }
+
+    &:target &__form {
+        position: relative;
+        animation: popup 0.5s ease;
+    }
+
+    .buttons > *:not(:last-child) {
+        display: inline-block;
+        margin-right: 2rem;
+    }
+
+    @media only screen and (max-width: $small-screen) {
+        .buttons:not(:last-child) {
+            width: 100%;
+            text-align: center;
+
+            & > * {
+                width: 100%;
+                display: block;
+                margin-bottom: 2rem;
+            }
+        }
+    }
+}
+
+@keyframes popup {
+    0% {
+        transform: scale(0.5);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}

@@ -1,0 +1,31 @@
+$header1: 2.5rem;
+$header2: 4rem;
+$header3: 2.5rem;
+$header4: 2rem;
+$text: 1.5rem;
+
+// COLOR
+$color-primary: #ff9500;
+
+$color-white: #fff;
+$color-black: #000;
+
+$color-gray: #eee;
+
+// $background-color: #154353;
+$gray-text: #2c2c2c;
+
+// SHADOW
+$box-shadow: 0 1rem 2rem rgba($gray-text, 0.2);
+
+// BORDER-RADIUS
+$round-border: 5px;
+
+// MEDIA
+
+$small-screen: 500px;
+
+// MARGINS
+.u-margin-bottom {
+    margin-bottom: 2.5rem;
+}
