@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	{% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;600;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+    <title>Document</title>
+    <style type="text/css">
+    	a.disabled {
+            pointer-events: none;
+            color: #ccc;
+        }
+        .error_text{
+            width: 300px;
+            height: 34px;
+            background: orange;
+            border-radius: 30px;
+            padding: 7px 39px;
+            text-align: center;
+            margin-left: 500px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body onload="myFunction()">
+    <script>
+        function myFunction(){
+            $('#b_email').val(' ');
+            
+        }
+    </script>
+<!--     {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'error' %}  
+                <p>{{ message|safe }}</p>
+            {% else %}
+                <p class="error_text">{{ message|safe }}</p>
+            {% endif %}
+        {% endfor %}
+    {% endif %} -->
+    <header class="main-header" id="home">
+        <div class="container">
+            <h2 class="main-header__logo">LOGO</h2>
+            <div class="btn-container">
+                <a href="#sign-in" class="btn btn__sign-in">Sign in</a>
+                <a href="#sign-up" class="btn btn__sign-up">Sign up</a>
+            </div>
+        </div>
+    </header>
+    <section class="popup" id="sign-in">
+        <form method="post" action="" class="popup__form" id="ajax_login">
+            {% csrf_token %}
+            <span class='popup__close'><a href="#home">&times;</a></span>
+            <h1 class="popup__form__heading">Sign in</h1>
+             <p class="login_fail" style="display: none;color: red">Authentication Mismatch</p>
+            <div class="popup__form__group">
+                <label for="name" class="popup__form__label">Email</label>
+                <input id="name" name="email" type="email" class="popup__form__input" placeholder="Email" required>
+            </div>
+            <div class="popup__form__group">
+                <label for="password" class="popup__form__label">Password</label>
+                <input id="password" name="password" type="password" class="popup__form__input" placeholder="Password" required>
+            </div>
+            <div class="buttons">
+                <button type="submit" class="btn">Sign in</button>
+                <a href="#home" class="btn">Back</a>
+            </div>
+        </form>
+    </section>
+
+    <section class="popup" id="sign-up">
+
+
+        <form method="post" action="" class="popup__form b_form" id="ajax_signmi" autocomplete="off">
+        	{% csrf_token %}
+            <span class='popup__close'><a href="#home">&times;</a></span>
+            <h1 class="popup__form__heading">Sign Up</h1>
+            <h4 class="u-margin-bottom type_1_name" style="display: none">as Mieter</h4>
+            <p class="u-margin-bottom type_1" style="display: none">as Mieter</p>
+            <p class="b_pass_error" style="display: none;color: red;font-size: 11px;text-align: center;">Password not match</p>
+
+            <div class="buttons u-margin-bottom">
+                <a  class="btn b_btn_1" style="background: #FF9500;color: white">Mieter</a>
+                <a  class="btn s_btn_1">Vermieter</a>
+            </div>
+            <div class="popup__form__group b_email">
+                <label for="name" class="popup__form__label">Email</label>
+                <p class="b_email_error" style="display: none;color: red">Invalid Email</p>
+                <input id="b_email" name="email" type="email" class="popup__form__input b_check_email" autocomplete="off" value="" placeholder="Email" >
+            </div>
+        
+            <input name="role" type="hidden" class="popup__form__input" placeholder="Email" value="mieter">
+      
+            <div class="popup__form__group b_pass1" style="display: none">
+                <label for="password" class="popup__form__label">Password</label>
+                
+                <input  name="password1" type="password" class="popup__form__input b_pass1_check" placeholder="Password" required>
+            </div>
+            <div class="popup__form__group b_pass2" style="display: none">
+                <label for="password" class="popup__form__label">Confirm Password</label>
+                <input  name="password2" type="password" class="popup__form__input b_pass2_check" placeholder="Confirm Password" required>
+            </div>
+            <div class="popup__form__group popup__form__checkbox b_check" style="display: none">
+                <input class="popup__form__checkbox--input b_checkbox" type="checkbox" name="i-agree" id="agreement" required="required">
+                <P class="popup__form__checkbox--label">I agree the terms & conditions.</P>
+            </div>
+            <div class="buttons">
+                <a href="" id="b_next" class="btn b_next">Next</a>
+                <a href="" class="btn b_back" style="display: none">Back</a>
+                <button type="submit" class="btn b_submit" style="display: none">Submit</button>
+            </div>
+        </form>
+
+
+
+        <form method="post" action="" class="popup__form s_form" style="display: none" id="ajax_signvi">
+        	{% csrf_token %}
+            <span class='popup__close'><a href="#home">&times;</a></span>
+            <h1 class="popup__form__heading">Sign Up</h1>
+            <h4 class="u-margin-bottom type_2_name" style="display: none">as Vermieter</h4>
+            <p class="u-margin-bottom type_2" style="display: none">as Vermieter</p>
+            <p class="s_pass_error" style="display: none;color: red;font-size: 11px;text-align: center;">Password not match</p>
+
+            <div class="buttons u-margin-bottom">
+                <a  class="btn b_btn_2" style="display: none">Mieter</a>
+                <a  class="btn s_btn_2" style="display: none;background: #FF9500;color: white">Vermieter</a>
+            </div>
+            <div class="popup__form__group s_email" style="display: none">
+                <label for="name" class="popup__form__label">Email</label>
+                <p class="s_email_error" style="display: none;color: red">Invalid Email</p>
+                <input id="s_email" name="email" type="email" class="popup__form__input s_check_email" value="" placeholder="Email" required>
+            </div>
+            <input name="role" type="hidden" class="popup__form__input" placeholder="Email" value="vermieter">
+            <div class="popup__form__group s_pass1" style="display: none">
+                <label for="password" class="popup__form__label">Password</label>
+                <input  name="password1" type="password" class="popup__form__input s_pass1_check" placeholder="Password" required>
+            </div>
+            <div class="popup__form__group s_pass2" style="display: none">
+                <label for="password" class="popup__form__label">Confirm Password</label>
+                <input name="password2" type="password" class="popup__form__input s_pass2_check" placeholder="Confirm Password" required>
+            </div>
+            <div class="popup__form__group popup__form__checkbox s_check" style="display: none">
+                <input class="popup__form__checkbox--input s_checkbox" type="checkbox" name="i-agree" id="agreement" required="required">
+                <P class="popup__form__checkbox--label">I agree the terms & conditions.</P>
+            </div>
+            <div class="buttons">
+                <a href="" id="s_next" class="btn s_next disabled" style="display: none">Next</a>
+                <a href="" class="btn s_back" style="display: none">Back</a>
+                <button type="submit" class="btn s_submit" style="display: none">Submit</button>
+            </div>
+        </form>
+
+
+
+
+    </section>
+
+
+
+
+    <footer class="footer">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+            <title>facebook</title>
+            <path
+                d="M17 1h-14c-1.1 0-2 0.9-2 2v14c0 1.101 0.9 2 2 2h7v-7h-2v-2.475h2v-2.050c0-2.164 1.212-3.684 3.766-3.684l1.803 0.002v2.605h-1.197c-0.994 0-1.372 0.746-1.372 1.438v1.69h2.568l-0.568 2.474h-2v7h4c1.1 0 2-0.899 2-2v-14c0-1.1-0.9-2-2-2z">
+            </path>
+        </svg>
+
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+            <title>twitter</title>
+            <path
+                d="M17.316 6.246c0.008 0.162 0.011 0.326 0.011 0.488 0 4.99-3.797 10.742-10.74 10.742-2.133 0-4.116-0.625-5.787-1.697 0.296 0.035 0.596 0.053 0.9 0.053 1.77 0 3.397-0.604 4.688-1.615-1.651-0.031-3.046-1.121-3.526-2.621 0.23 0.043 0.467 0.066 0.71 0.066 0.345 0 0.679-0.045 0.995-0.131-1.727-0.348-3.028-1.873-3.028-3.703 0-0.016 0-0.031 0-0.047 0.509 0.283 1.092 0.453 1.71 0.473-1.013-0.678-1.68-1.832-1.68-3.143 0-0.691 0.186-1.34 0.512-1.898 1.861 2.285 4.644 3.787 7.781 3.945-0.064-0.277-0.097-0.564-0.097-0.861 0-2.084 1.689-3.773 3.774-3.773 1.086 0 2.067 0.457 2.756 1.191 0.859-0.17 1.667-0.484 2.397-0.916-0.282 0.881-0.881 1.621-1.66 2.088 0.764-0.092 1.49-0.293 2.168-0.594-0.506 0.758-1.146 1.422-1.884 1.953z">
+            </path>
+        </svg>
+
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+            <title>youtube</title>
+            <path
+                d="M10 2.3c-9.828 0-10 0.874-10 7.7s0.172 7.7 10 7.7 10-0.874 10-7.7-0.172-7.7-10-7.7zM13.205 10.334l-4.49 2.096c-0.393 0.182-0.715-0.022-0.715-0.456v-3.948c0-0.433 0.322-0.638 0.715-0.456l4.49 2.096c0.393 0.184 0.393 0.484 0 0.668z">
+            </path>
+        </svg>
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+    <script>
+        let t=0;
+        let tt=0;
+        let csrfMiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+        //password matching for mieter
+        function CheckPassword(inputtxt) { 
+            var re=  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
+            return re.test(inputtxt);
+
+        } 
+
+        $(document).on('keyup','.b_pass1_check,.b_pass2_check',function(e){
+            //$('.b_pass_error').css('display','none');
+            // $('.b_submit').removeAttr('disabled');
+        });
+
+        csrfMiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+        $(document).on('click','.b_submit',function(e){
+            e.preventDefault();
+            if(t===1){
+
+                pass1=$('.b_pass1_check').val();
+                pass2=$('.b_pass2_check').val();
+                console.log(pass1);
+                console.log(pass2);
+                if(pass1.trim().length!=0 && pass2.trim().length!=0){
+                    ck=CheckPassword(pass1);
+                    if(pass1!=pass2){
+                        $('.b_pass_error').html('Password not match');
+                        $('.b_pass_error').css('display','');
+                        // $('.b_submit').attr('disabled', 'disabled');
+                    }
+
+                    else if(pass1.match(pass2) && !ck){
+
+                         $('.b_pass_error').html(`Make sure its at least 15 characters OR at least 8 </br> characters including a lowercase letter, a uppercase </br> letter, a numericl digit and a special character.`);
+                         $('.b_pass_error').css('display','');
+                    
+                    }
+                    else if(!$(".b_checkbox").is(":checked")){
+                        $('.b_pass_error').html('You must check the checkbox');
+                        $('.b_pass_error').css('display','');
+                        // $('.b_submit').attr('disabled', 'disabled');
+                    }
+                    else{
+
+                        
+
+                        $('.b_pass_error').css('display','none');
+                    // $('.b_submit').removeAttr('disabled');
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRFToken': csrfMiddlewaretoken
+                            }
+                        });
+                        var data = new FormData($('#ajax_signmi').get(0));
+                        $.ajax({
+                        url: '/user/reg/mi/',
+                        type: 'POST',
+                        data: data,
+                        processData: false,
+                        contentType: false,
+                        success: function(data) {
+                            console.log("SUCCESS");
+                            location.href="/";
+                        },
+                        error:function(data){
+                            alert("ERROR");
+                        },
+                    });
+
+                    }
+                }
+                else{
+
+                    $('.b_pass_error').html('Password should be not empty');
+                    $('.b_pass_error').css('display','');
+                    // $('.b_submit').removeAttr('disabled');
+                                 
+                }
+            }
+
+        });
+    </script>
+    <script>
+        //pasword matching for vermieter
+        $(document).on('keyup','.s_pass1_check,.s_pass2_check',function(e){
+           // $('.s_pass_error').css('display','none');
+
+        });
+
+
+        csrfMiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+        $(document).on('click','.s_submit',function(e){
+            e.preventDefault();
+
+            if(tt===1){
+
+                pass1=$('.s_pass1_check').val();
+                pass2=$('.s_pass2_check').val();
+                console.log(pass1);
+                console.log(pass2);
+
+                if(pass1.trim().length!=0 && pass2.trim().length!=0){
+                    ck=CheckPassword(pass1);
+                    if(pass1!=pass2){
+                        $('.s_pass_error').html('Password not match');
+                        $('.s_pass_error').css('display','');
+                        // $('.b_submit').attr('disabled', 'disabled');
+                    }
+                    else if(pass1.match(pass2) && !ck){
+
+                         $('.s_pass_error').html(`Make sure its at least 15 characters OR at least 8 </br> characters including a lowercase letter, a uppercase </br> letter, a numericl digit and a special character.`);
+                         $('.s_pass_error').css('display','');
+                    
+                    }
+                    else if(!$(".s_checkbox").is(":checked")){
+                        $('.s_pass_error').html('You must check the checkbox');
+                        $('.s_pass_error').css('display','');
+                        // $('.b_submit').attr('disabled', 'disabled');
+                    }
+                    else{
+                        $('.s_pass_error').css('display','none');
+                        // $('.b_submit').removeAttr('disabled');
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-CSRFToken': csrfMiddlewaretoken
+                                }
+                            });
+
+                            var data = new FormData($('#ajax_signvi').get(0));
+                            $.ajax({
+                            url: '/user/reg/vi/',
+                            type: 'POST',
+                            data: data,
+                            processData: false,
+                            contentType: false,
+                            success: function(data) {
+                                console.log("SUCCESS");
+                                location.href="/";
+                            },
+                            error:function(data){
+                                alert("ERROR");
+                            },
+                        });
+                    }
+                }
+                else{
+
+                    $('.s_pass_error').html('Password should be not empty');
+                    $('.s_pass_error').css('display','');
+                    // $('.b_submit').removeAttr('disabled');
+                                 
+                }
+            }
+
+        });
+    </script>
+    <script>
+        //check email is already existed or nor for mieter
+        $(document).on('keyup','.b_check_email',function(e){
+            $('.b_email_error').css('display','none');
+            var element = document.getElementById("b_next");
+            //element.classList.remove("disabled");
+            if(e.keyCode===13){
+                //t=1;
+                element.click();
+            }
+     
+
+        });
+    </script>
+    <script>
+        //check email is already existed or nor for vermieter
+        $(document).on('keyup','.s_check_email',function(e){
+            $('.s_email_error').css('display','none');
+            var element = document.getElementById("s_next");
+            //element.classList.remove("disabled");
+            if(e.keyCode===13){
+                element.click();
+            }
+
+
+        });
+    </script>
+    <script type="text/javascript">
+        //get user login
+        
+        $(document).ready(function() {
+            $('#ajax_login').submit(function(e) {
+                e.preventDefault();  
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRFToken': csrfMiddlewaretoken
+                    }
+                });
+                var data = new FormData($('#ajax_login').get(0));
+                $.ajax({
+                url: '/log/in/',
+                type: 'POST',
+                data: data,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    console.log("SUCCESS");
+                    if(data==='False'){
+                        $('.login_fail').css('display','');
+                    }
+                    else{
+                        location.href="/";
+                    }
+
+                },
+                error:function(data){
+                    alert("ERROR");
+                },
+            });
+    
+                
+            });
+        });
+        
+
+    </script>
+    <script>
+        check=0;
+        function reset(){
+            $('.b_form,.b_btn_1,.s_btn_1,.type_1,.b_email,.b_pass1,.b_pass2,.b_check,.b_next,.b_back,.b_submit,.b_email_error').css('display','none');
+
+            $('.s_form,.b_btn_2,.s_btn_2,.type_2,.s_email,.s_pass1,.s_pass2,.s_check,.s_next,.s_back,.s_submit,.s_email_error').css('display','none');
+            $('.b_pass_error').css('display','none');
+            $('.s_pass_error').css('display','none');
+            $('.type_1_name').css('display','none');
+            $('.type_2_name').css('display','none');
+
+        }
+        function password_reset(){
+            $('.s_pass1_check').val("");
+            $('.s_pass2_check').val("");
+            $('.b_pass1_check').val("");
+            $('.b_pass2_check').val("");
+
+        }
+
+
+        $(document).on('click','.b_next',function(e){
+            e.preventDefault();
+            password_reset();
+            //t=1;
+
+
+
+            var email= $('.b_check_email').val();
+            console.log(email);
+            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if(email.trim().length!=0 && re.test(String(email).toLowerCase())){
+                // $('.b_email_error').html("Invalid email");
+                // $('.b_email_error').css('display','none');
+                $.ajax({
+                    method:'GET',
+                    url:'/email_check/',
+                    datatype:'json',
+                    data:{
+                        email:email,                                       
+                    },
+                    success:function(data){
+                        console.log("SUCCESS");
+                        console.log(data);
+                        if(email.trim().length!=0 &&  data==='False'){
+                              var element = document.getElementById("b_next");
+                              //element.classList.remove("disabled");
+
+                                reset();
+                                check=0;
+                                t=1;
+
+                                $('.b_form').css('display','');
+                                $('.type_1').css('display','');
+                                $('.type_1_name').css('display','');
+                                $('.b_pass1').css('display','');
+                                $('.b_pass2').css('display','');
+                                $('.b_back').css('display','');
+                                $('.b_check').css('display','');
+                                $('.b_submit').css('display','');
+
+                                $('.type_1').html($('.b_check_email').val());
+                        }
+                        else{
+
+                            $('.b_email_error').html("Email Existed");
+                            $('.b_email_error').css('display','');
+                              var element = document.getElementById("b_next");
+                              //element.classList.add("disabled");
+                        }
+                    },
+                    error:function(data){
+                        alert("ERROR");
+
+                    },
+                })
+            }
+            else if(email.trim().length!=0){
+                $('.b_email_error').html("Invalid Email");
+                $('.b_email_error').css('display','');
+                  var element = document.getElementById("b_next");
+                  //element.classList.add("disabled");
+            }
+            else{
+                $('.b_email_error').css('display','none');
+            }
+
+        });
+
+
+        $(document).on('click','.s_next',function(e){
+            e.preventDefault();
+            password_reset();
+
+            var email= $('.s_check_email').val();
+            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if(email.trim().length!=0 && re.test(String(email).toLowerCase())){
+                // $('.s_email_error').html("Invalid email");
+                // $('.s_email_error').css('display','none');
+                $.ajax({
+                    method:'GET',
+                    url:'/email_check/',
+                    datatype:'json',
+                    data:{
+                        email:email,                                       
+                    },
+                    success:function(data){
+                        console.log("SUCCESS");
+                        console.log(data);
+                        if(email.trim().length!=0 &&  data==='False'){
+                              var element = document.getElementById("s_next");
+                              //element.classList.remove("disabled");
+
+                                reset();
+                                check=1;
+                                tt=1;
+                                $('.s_form').css('display','');
+                                $('.type_2').css('display','');
+                                $('.type_2_name').css('display','');
+                                $('.s_pass1').css('display','');
+                                $('.s_pass2').css('display','');
+                                $('.s_back').css('display','');
+                                $('.s_check').css('display','');
+                                $('.s_submit').css('display','');
+
+                                $('.type_2').html($('.s_check_email').val())
+                        }
+                        else{
+                            $('.s_email_error').html("Email Existed");
+                            $('.s_email_error').css('display','');
+                              var element = document.getElementById("s_next");
+                              //element.classList.add("disabled");
+                        }
+                    },
+                    error:function(data){
+                        alert("ERROR");
+
+                    },
+                })
+            }
+            else if(email.trim().length!=0){
+                $('.s_email_error').html("Invalid email");
+                $('.s_email_error').css('display','');
+                  var element = document.getElementById("s_next");
+                  //element.classList.add("disabled");
+            }
+            else{
+                $('.s_email_error').css('display','none');
+            }
+
+
+
+
+
+
+        });
+        $(document).on('click','.b_back',function(e){
+            e.preventDefault();
+            reset();
+            password_reset();
+            $('.b_form').css('display','');
+            $('.b_email').css('display','');
+            $('.b_next').css('display','');
+
+            $('.b_btn_1').css('display','');
+            $('.s_btn_1').css('display','');
+
+            t=0;
+
+
+        });
+        $(document).on('click','.s_back',function(e){
+            e.preventDefault();
+            reset();
+            password_reset();
+            $('.s_form').css('display','');
+            $('.s_email').css('display','');
+            $('.s_next').css('display','');
+
+            $('.b_btn_2').css('display','');
+            $('.s_btn_2').css('display','');
+
+            tt=0;
+        });
+
+        $(document).on('click','.b_btn_1',function(e){
+            e.preventDefault();
+            reset();
+            password_reset();
+            $('.b_form').css('display','');
+
+            $('.b_btn_1').css('display','');
+            $('.s_btn_1').css('display','');
+
+            $('.b_email').css('display','');
+            $('.b_next').css('display','');
+
+            $('.b_check_email').val($('.s_check_email').val());
+              var element = document.getElementById("b_next");
+              element.classList.remove("disabled");
+        });
+
+        $(document).on('click','.b_btn_2',function(e){
+            e.preventDefault();
+            reset();
+            password_reset();
+            $('.b_form').css('display','');
+
+            $('.b_btn_1').css('display','');
+            $('.s_btn_1').css('display','');
+
+            $('.b_email').css('display','');
+            $('.b_next').css('display','');
+
+            $('.b_check_email').val($('.s_check_email').val());
+              var element = document.getElementById("b_next");
+              element.classList.remove("disabled");
+        });
+
+
+        $(document).on('click','.s_btn_1',function(e){
+            e.preventDefault();
+            reset();
+            password_reset();
+            $('.s_form').css('display','');
+
+            $('.b_btn_2').css('display','');
+            $('.s_btn_2').css('display','');
+
+            $('.s_email').css('display','');
+            $('.s_next').css('display','');
+
+            $('.s_check_email').val($('.b_check_email').val());
+              var element = document.getElementById("s_next");
+              element.classList.remove("disabled");
+        });
+
+        $(document).on('click','.s_btn_2',function(e){
+            e.preventDefault();
+            reset();
+            password_reset();
+            $('.s_form').css('display','');
+
+            $('.b_btn_2').css('display','');
+            $('.s_btn_2').css('display','');
+
+            $('.s_email').css('display','');
+            $('.s_next').css('display','');
+
+            $('.s_check_email').val($('.b_check_email').val());
+              var element = document.getElementById("s_next");
+              element.classList.remove("disabled");
+
+            
+
+        });
+    </script>
+    <script>
+ 
+        $(document).on('click','.popup__close',function(e){
+            e.preventDefault();
+            location.href="/landing_page/";
+        });
+    </script>
+</body>
+
+</html>

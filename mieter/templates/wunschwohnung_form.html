@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Title</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}" media=all>
+    <link rel="preload" href="{% static 'font-awesome.min.css' %}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{% static 'fontawesome-all.min.css' %}"></noscript>
+    <link href="{% static 'selectize.css' %}" rel="stylesheet">
+    <style type="text/css">
+        .form-control1 {
+            width: 100%;
+            height: calc(1.5em + .75rem + 2px);
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #ff9500;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        }
+        .text-primary{
+            color: #ff9500 !important;
+        }
+        .custom_input , .selectize-input{
+            border: 1px solid #ff9500;
+
+        }
+        .selectize-input:focus {
+            box-shadow: 0 1rem 2rem rgba(44, 44, 44, 0.2);
+            border: 2px solid black !important;
+        }
+         .custom_input:focus {
+            box-shadow: 0 1rem 2rem rgba(44, 44, 44, 0.2);
+            border: 2px solid black !important;
+        }
+        .tt > .selectize-control > .selectize-input {
+            position: relative;
+            width: 59%;
+            float: right;
+            top: -37px;
+            right: 44px;
+            border-radius: .25rem;
+            height: 39px;
+        }
+        .ttt > .selectize-control > .selectize-input {
+            border-radius: .25rem;
+            height: 39px;
+        }
+    </style>
+
+<nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar" style="padding: 0.3rem;">
+    <div class="container" style="padding: 0px; padding-left: 5px;  max-width: 100%;">
+        <div>
+            <img  alt="" style="width: 31px;vertical-align: middle; align-content: center; padding: 0;">
+            
+              <a class="navbar-brand logo" href="" style="color: rgb(59,153,224); vertical-align: middle; text-align: center;">Logo</a>
+            
+        </div>
+        <button aria-label="Primary" data-toggle="collapse" class="navbar-toggler ml-auto hidden-sm-up float-xs-right" data-target="#navcol-1" style="align-content: center; vertical-align: middle;">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navcol-1" style="padding: 0px; margin: 0px; vertical-align: middle; align-content: center; text-align: center;">
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item" role="presentation" style="padding-right: 1rem; padding-left: 1rem;">
+                    <a class=" nav-link " href="{% url 'index' %}">My Data</a>
+                </li>
+                <li class="nav-item" role="presentation" style="padding-right: 1rem; padding-left: 1rem;">
+                    <a class=" nav-link " href="{% url 'matches' %}">Matches</a>
+                </li>
+                <li class="nav-item" style="padding-right: 1rem; padding-left: 1rem;">
+                    <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{request.user.email}}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
+                        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                    </div>
+                </li>
+            </ul>
+
+
+
+        </div>
+    </div>
+</nav>
+
+</head>
+
+<body class="text-center" style="background-color: #eee">
+    <br/><br/><br/>
+
+
+
+        <section style="min-height: 763px;">
+            <div id="wrapper">
+                <div class="d-flex flex-column" id="content-wrapper">
+                    <div id="content">
+                    <div class="container-fluid">
+                        
+                        <div class="row mb-3">
+                  
+                            <div class="offset-md-1 col-md-10">
+                                <form class='my-ajax-form-contact' method='POST' >
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="card shadow">
+                                                
+                                                    <div class="card-header py-3">
+                                                        <p class="text-primary m-0 font-weight-bold">Wuncshwohnung</p>
+                                                    </div>
+                                                    <div class="card-body">
+
+                                                            <div class="form-row">
+                                                                <div class="col">
+                                                                    <div class="form-group">
+                                                                        <label for="address"><strong>Maximulae Kaltmiete</strong></label>
+                                                                        
+                                                                        <div class="row">
+                                                                            <div class="col-md-10" style="padding-right: 0px;">
+                                                                                <input type="number" name="max_miete" class="form-control custom_input" style="text-align: right;" placeholder="Maximulae Kaltmiete" id="id_address1">
+                                                                            </div>
+                                                                            <div class="col-md-2" style="padding-left: 0px !important;margin-top: 8px">
+                                                                                <p style="font-weight: bold;">,- €</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <div class="form-group">
+                                                                        <label for="address2"><strong>Fläche</strong></label>
+                                                                        
+                                                                        <div class="row">
+                                                                            <div class="col-md-10" style="padding-right: 0px;">
+                                                                                <input type="text" name="flaeche" class="form-control custom_input" style="text-align: right;" placeholder="Flache" id="id_address2">
+                                                                            </div>
+                                                                            <div class="col-md-2" style="padding-left: 0px !important;margin-top: 8px">
+                                                                                <p style="font-weight: bold;">,m<sup>2</sup></p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-row">
+                                                                <div class="col">
+                                                                    <div class="form-group">
+                                                                        <label for="address"><strong>Anzahl der Zimmer ab</strong></label>
+                                                                        <input type="number" name="anzahl_zimmer" class="form-control custom_input" placeholder="Anzahl der Zimmer ab" id="id_address1">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <div class="form-group">
+                                                                        <label for="address2"><strong>Bezugsfertig ab</strong></label>
+                                                                        <input type="date" name="bezugsfertig" class="form-control custom_input" placeholder="Bezugsfertig ab" id="id_address2">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        
+                                                    </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="card shadow">
+                                                <div class="card-header py-3">
+                                                    <p class="text-primary m-0 font-weight-bold">Lage</p>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="form-row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label for="address"><strong>Land</strong></label>
+                                                                <input type="text" name="land" class="form-control custom_input" placeholder="Land" id="id_address1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label for="address2"><strong>Stadt</strong></label>
+                                                                <input type="text" name="stadt" class="form-control custom_input" placeholder="Stadt" id="id_address2">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="col">
+                                                            <div class="form-group ttt">
+                                                                <label for="address"><strong>Stadtteil</strong></label>
+                                                               <!--  <input type="text" name="address1" class="form-control" placeholder="123 Main Street" id="id_address1"> -->
+
+                                                      
+                                                                <select id="stadtteil" class="form-control" name="stadtteil" multiple placeholder="Choose Stadtteil">
+                                                                  {% for stadtteil in stadtteils %}
+                                                                        <option value="{{stadtteil.pk}}">{{stadtteil.stadtteil}}</option>
+                                                                  {% endfor %}
+
+                                                                </select>
+                                                
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                       
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="card shadow">
+                                                <div class="card-header py-3">
+                                                    <p class="text-primary m-0 font-weight-bold">Ausstattung</p>
+                                                </div>
+                                                <div class="card-body">
+
+                                                    <div class="form-row" style="text-align: left;margin-bottom: 10px;">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="address" style="width: 80%;float: left;margin-top: 7px;margin-right: 18px;"><strong>Balkon / Terrasse</strong></label>
+                                                                <input style="width: 36px;" type="checkbox" name="balkon_terrasse" class="form-control1" placeholder="123 Main Street" id="id_address2">
+                                                                <strong style="position: relative;top: -36px;float: right;right: -23px;">Yes</strong>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">   </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group tt">
+                                                                <label for="address" style="width: 80%;float: left;margin-top: 7px;margin-right: 18px;"><strong>Wohnungstyp</strong></label>
+                                                                <select id="wohnungstyp" class="form-control" name="wohnungstyp" multiple placeholder="Choose Wohnungstyp">
+                                                                  {% for wohnungstyp in wohnungstyps %}
+                                                                        <option value="{{wohnungstyp.pk}}">{{wohnungstyp.wohnungstyp}}</option>
+                                                                  {% endfor %}
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-row" style="text-align: left;margin-bottom: 10px;">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="address" style="width: 80%;float: left;margin-top: 7px;margin-right: 18px;"><strong>Barrierefrei</strong></label>
+                                                                <input style="width: 36px;" type="checkbox" name="barrierefrei" class="form-control1 custom_input" placeholder="123 Main Street" id="id_address2">
+                                                                <strong style="position: relative;top: -36px;float: right;right: -23px;">Yes</strong>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">   </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="address" style="width: 80%;float: left;margin-top: 7px;margin-right: 18px;"><strong>Haustiere erlaubt</strong></label>
+                                                                <input style="width: 36px;" type="checkbox" name="haustiere" class="form-control1 custom_input" placeholder="123 Main Street" id="id_address2">
+                                                                <strong style="position: relative;top: -13px;">Yes</strong>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-row" style="text-align: left;margin-bottom: 10px;">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="address" style="width: 80%;float: left;margin-top: 7px;margin-right: 18px;"><strong>Garage / Stellplats</strong></label>
+                                                                <input style="width: 36px;" type="checkbox" name="garage_stellplatz" class="form-control1 custom_input" placeholder="123 Main Street" id="id_address2">
+                                                                <strong style="position: relative;top: -36px;float: right;right: -23px;">Yes</strong>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">   </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="address" style="width: 80%;float: left;margin-top: 7px;margin-right: 18px;"><strong>Einbauküche</strong></label>
+                                                                <input style="width: 36px;" type="checkbox" name="einbaukueche" class="form-control1 custom_input" placeholder="123 Main Street" id="id_address2">
+                                                                <strong style="position: relative;top: -13px;">Yes</strong>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-row" style="text-align: left;margin-bottom: 10px;">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="address" style="width: 80%;float: left;margin-top: 7px;margin-right: 18px;"><strong>Keller</strong></label>
+                                                                <input style="width: 36px;" type="checkbox" name="keller" class="form-control1 custom_input" placeholder="123 Main Street" id="id_address2">
+                                                                <strong style="position: relative;top: -36px;float: right;right: -23px;">Yes</strong>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">   </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="address" style="width: 80%;float: left;margin-top: 7px;margin-right: 18px;"><strong>Gäste-WC</strong></label>
+                                                                <input style="width: 36px;" type="checkbox" name="gaeste_wc" class="form-control1 custom_input" placeholder="123 Main Street" id="id_address2">
+                                                                <strong style="position: relative;top: -13px;">Yes</strong>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                    
+                                  
+                                   
+                        
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin-top: 20px;">
+                                        <button class="btn btn-primary" style="margin-right: 5px;" value="contactinfoform" type="submit">Save</button>
+                                        <a href="{% url 'index' %}" class="btn btn-success" >Back</a>
+                                    </div>
+                                 </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        
+
+    <footer class="footer" style="text-align: center;fill: #ff9500;height: 43px;box-shadow: 0 0 15px rgb(56 23 23 / 32%);">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" style="margin-top: 12px;">
+            <title>facebook</title>
+            <path
+                d="M17 1h-14c-1.1 0-2 0.9-2 2v14c0 1.101 0.9 2 2 2h7v-7h-2v-2.475h2v-2.050c0-2.164 1.212-3.684 3.766-3.684l1.803 0.002v2.605h-1.197c-0.994 0-1.372 0.746-1.372 1.438v1.69h2.568l-0.568 2.474h-2v7h4c1.1 0 2-0.899 2-2v-14c0-1.1-0.9-2-2-2z">
+            </path>
+        </svg>
+
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" style="margin-top: 12px;">
+            <title>twitter</title>
+            <path
+                d="M17.316 6.246c0.008 0.162 0.011 0.326 0.011 0.488 0 4.99-3.797 10.742-10.74 10.742-2.133 0-4.116-0.625-5.787-1.697 0.296 0.035 0.596 0.053 0.9 0.053 1.77 0 3.397-0.604 4.688-1.615-1.651-0.031-3.046-1.121-3.526-2.621 0.23 0.043 0.467 0.066 0.71 0.066 0.345 0 0.679-0.045 0.995-0.131-1.727-0.348-3.028-1.873-3.028-3.703 0-0.016 0-0.031 0-0.047 0.509 0.283 1.092 0.453 1.71 0.473-1.013-0.678-1.68-1.832-1.68-3.143 0-0.691 0.186-1.34 0.512-1.898 1.861 2.285 4.644 3.787 7.781 3.945-0.064-0.277-0.097-0.564-0.097-0.861 0-2.084 1.689-3.773 3.774-3.773 1.086 0 2.067 0.457 2.756 1.191 0.859-0.17 1.667-0.484 2.397-0.916-0.282 0.881-0.881 1.621-1.66 2.088 0.764-0.092 1.49-0.293 2.168-0.594-0.506 0.758-1.146 1.422-1.884 1.953z">
+            </path>
+        </svg>
+
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" style="margin-top: 12px;">
+            <title>youtube</title>
+            <path
+                d="M10 2.3c-9.828 0-10 0.874-10 7.7s0.172 7.7 10 7.7 10-0.874 10-7.7-0.172-7.7-10-7.7zM13.205 10.334l-4.49 2.096c-0.393 0.182-0.715-0.022-0.715-0.456v-3.948c0-0.433 0.322-0.638 0.715-0.456l4.49 2.096c0.393 0.184 0.393 0.484 0 0.668z">
+            </path>
+        </svg>
+    </footer>
+
+
+
+</body>
+    
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script async src="{% static 'bootstrap.min.js' %}"></script>
+<script src="{% static 'jquery.js' %}"></script>
+<script src="{% static 'selectize.js' %}"></script>
+
+<script>
+    $(document).ready(function(){
+        $("#stadtteil").selectize({maxItems:5});
+        $("#wohnungstyp").selectize({maxItems:5});
+    });
+</script>
+
+
+
+
+
+
+</html>

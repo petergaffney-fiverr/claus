@@ -1,0 +1,36 @@
+.btn {
+    padding: 1.25rem 5rem;
+    border: none;
+    border-radius: $round-border;
+    background-color: $color-white;
+    font-family: inherit;
+    font-weight: 600;
+    letter-spacing: 0.1rem;
+    text-transform: capitalize;
+    cursor: pointer;
+    border: 1px solid $color-primary;
+    color: $color-primary;
+    transition: all 0.2s;
+
+    @media only screen and (max-width: 350px) {
+        padding: 1.25rem 3rem;
+    }
+
+    &link,
+    &--active,
+    &:hover {
+        box-shadow: $box-shadow;
+        color: $color-white;
+        background-color: $color-primary;
+    }
+
+    &__sign-in {
+        color: $color-primary;
+        margin-right: 3rem;
+    }
+
+    /* &__sign-up {
+        color: $color-white;
+        background-color: $color-primary;
+    } */
+}

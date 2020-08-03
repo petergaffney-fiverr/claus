@@ -1,0 +1,25 @@
+.container {
+    @include flex(center, center, column);
+    flex-wrap: wrap;
+
+    min-height: 90vh;
+}
+
+.main-header {
+    &__logo {
+        font-weight: 900;
+        color: $color-primary;
+        margin-bottom: 15rem;
+    }
+}
+
+.footer {
+    text-align: center;
+    fill: $color-primary;
+}
+
+.footer svg {
+    &:not(:last-child) {
+        margin-right: 1rem;
+    }
+}

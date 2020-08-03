@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Title</title>
+    {% load static %}
+    {% load check %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}" media=all>
+    <link rel="preload" href="{% static 'font-awesome.min.css' %}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{% static 'fontawesome-all.min.css' %}"></noscript>
+    <link href="{% static 'selectize.css' %}" rel="stylesheet">
+    <style type="text/css">
+        .form-control1 {
+            width: 100%;
+            height: calc(1.5em + .75rem + 2px);
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #ff9500;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        }
+        .text-primary{
+            color: #ff9500 !important;
+        }
+        .custom_input , .selectize-input{
+            border: 1px solid #ff9500;
+
+        }
+        .selectize-input:focus {
+            box-shadow: 0 1rem 2rem rgba(44, 44, 44, 0.2);
+            border: 2px solid black !important;
+        }
+         .custom_input:focus {
+            box-shadow: 0 1rem 2rem rgba(44, 44, 44, 0.2);
+            border: 2px solid black !important;
+        }
+        .tt > .selectize-control > .selectize-input {
+            position: relative;
+            width: 59%;
+            float: right;
+            top: -37px;
+            right: 44px;
+            border-radius: .25rem;
+            height: 39px;
+        }
+        .ttt > .selectize-control > .selectize-input {
+            border-radius: .25rem;
+            height: 39px;
+        }
+    </style>
+
+<nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar" style="padding: 0.3rem;">
+    <div class="container" style="padding: 0px; padding-left: 5px;  max-width: 100%;">
+        <div>
+            <img  alt="" style="width: 31px;vertical-align: middle; align-content: center; padding: 0;">
+            
+              <a class="navbar-brand logo" href="" style="color: rgb(59,153,224); vertical-align: middle; text-align: center;">Logo</a>
+            
+        </div>
+        <button aria-label="Primary" data-toggle="collapse" class="navbar-toggler ml-auto hidden-sm-up float-xs-right" data-target="#navcol-1" style="align-content: center; vertical-align: middle;">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navcol-1" style="padding: 0px; margin: 0px; vertical-align: middle; align-content: center; text-align: center;">
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item" role="presentation" style="padding-right: 1rem; padding-left: 1rem;">
+                    <a class=" nav-link " href="{% url 'index' %}">My Data</a>
+                </li>
+                <li class="nav-item" role="presentation" style="padding-right: 1rem; padding-left: 1rem;">
+                    <a class=" nav-link " href="{% url 'matches' %}">Matches</a>
+                </li>
+                <li class="nav-item" style="padding-right: 1rem; padding-left: 1rem;">
+                    <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{request.user.email}}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
+                        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                    </div>
+                </li>
+            </ul>
+
+
+
+        </div>
+    </div>
+</nav>
+
+</head>
+
+<body class="text-center">
+    <br/><br/><br/>
+
+
+
+        <section style="min-height: 763px;">
+            <div id="wrapper">
+                <div class="d-flex flex-column" id="content-wrapper">
+                    <div id="content">
+                    <div class="container-fluid">
+                        
+                        <div class="row mb-3">
+                  
+                            <div class="offset-md-1 col-md-10">
+                                <form class='my-ajax-form-contact' method='POST'>
+                                	{% csrf_token %}
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="card shadow">
+                                                
+                                                    <div class="card-header py-3">
+                                                        <p class="text-primary m-0 font-weight-bold">Hauptmieter</p>
+                                                    </div>
+                                                    <div class="card-body">
+
+                                                            <div class="form-row">
+                                                                <div class="col">
+                                                                    <div class="form-group">
+                                                                        <label for="address"><strong>Nachname</strong></label>
+                                                                        <input type="text" name="nachname" class="form-control custom_input" placeholder="Nachname" id="id_address1">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <div class="form-group">
+                                                                        <label for="address2"><strong>Firstname</strong></label>
+                                                                        <input type="text" name="vorname" class="form-control custom_input" placeholder="Firstname" id="id_address2">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-row">
+                                                                <div class="col">
+                                                                    <div class="form-group ttt">
+                                                                        <label for="address"><strong>Familienstand</strong></label>
+                                                                        <select id="familienstands" style="font-family: Montserrat, sans-serif;" class="form-control" name="familienstands" multiple placeholder="Choose Familienstands">
+                                                                          {% for familienstand in familienstands %}
+                                                                                <option value="{{familienstand.pk}}">{{familienstand.familienstand}}</option>
+                                                                          {% endfor %}
+
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <div class="form-group">
+                                                                        <label for="address2"><strong>Geburtsdatum</strong></label>
+                                                                        <input type="date" name="geburtsdatum" class="form-control custom_input" placeholder="Geburtsdatum" id="id_address2">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        
+                                                    </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="card shadow">
+                                                <div class="card-header py-3">
+                                                    <p class="text-primary m-0 font-weight-bold">Anschrift</p>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="form-row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label for="address"><strong>Strabe</strong></label>
+                                                                <input type="text" name="anschrift_strasse" class="form-control custom_input" placeholder="Strabe" id="id_address1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label for="address2"><strong>Hausnummer</strong></label>
+                                                                <input type="text" name="anschrift_hausnummer" class="form-control custom_input" placeholder="Hausnummer" id="id_address2">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label for="address"><strong>PLZ</strong></label>
+                                                                <input type="text" name="anschrift_plz" class="form-control custom_input" placeholder="PLZ" id="id_address1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label for="address2"><strong>Stadt</strong></label>
+                                                                <input type="text" name="anschrift_stadt" class="form-control custom_input" placeholder="Stadt" id="id_address2">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label for="address"><strong>Telefonnummer</strong></label>
+                                                                <input type="text" name="telefonnummer" class="form-control custom_input" placeholder="Telefonnummer" id="id_address1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                       
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="card shadow">
+                                                <div class="card-header py-3">
+                                                    <p class="text-primary m-0 font-weight-bold">Beruf</p>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="form-row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label for="address"><strong>Ausgeubter Beruf</strong></label>
+                                                                <input type="text" name="beruf" class="form-control custom_input" placeholder="Ausgeubter Beruf" id="id_address1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label for="address2"><strong>Monatliches Nettoeinkommen</strong></label>
+                                                                <div class="row">
+                                                                    <div class="col-md-11" style="padding-right: 0px;">
+                                                                        <input type="number" name="einkommen" class="form-control custom_input" style="text-align: right;" placeholder="Monatliches Nettoeinkommen" id="id_address2">
+                                                                    </div>
+                                                                    <div class="col-md-1" style="padding: 0px !important;margin-top: 8px">
+                                                                        <p style="font-weight: bold;">,- €</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="card shadow">
+                                                <div class="card-header py-3">
+                                                    <p class="text-primary m-0 font-weight-bold">Derzeitiger Arbeitgeber</p>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="form-row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label for="address"><strong>Name</strong></label>
+                                                                <input type="text" name="arbeitgeber_name" class="form-control custom_input" placeholder="Name" id="id_address1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label for="address2"><strong>Anschrift</strong></label>
+                                                                <input type="text" name="arbeitgeber_anschrift" class="form-control custom_input" placeholder="Anschrift" id="id_address2">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label for="address"><strong>Telefonnummer</strong></label>
+                                                                <input type="text" name="arbeitgeber_telefonnummer" class="form-control custom_input" placeholder="Telefonnummer" id="id_address1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label for="address2"><strong>Beschaftigt seit</strong></label>
+                                                                <input type="date" name="arbeitsgeber_datum_besch" class="form-control custom_input" placeholder="Beschaftigt seit" id="id_address2">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row" style="text-align: left;margin-top: 20px;">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <div class="row">
+                                                                    <div class="col-md-7">
+                                                                        <label for="address" ><strong>Festanstellung</strong></label>
+                                                                    </div>
+                                                                    <div class="col-md-5">
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <input  style="width: 36px;" type="radio" name="arbeitgeber_festanstellung" value="True" class="form-control1" placeholder="123 Main Street" id="id_address2">
+                                                                            </div>
+                                                                            <div class="col-md-4" style="margin-top: 8px;">
+                                                                                <strong >Yes</strong>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <input  style="width: 36px;" type="radio" name="arbeitgeber_festanstellung" value="False" class="form-control1" placeholder="123 Main Street" id="id_address2">
+                                                                            </div>
+                                                                            <div class="col-md-4" style="margin-top: 8px;">
+                                                                                <strong >No</strong>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <div class="row">
+                                                                    <div class="col-md-7">
+                                                                        <label for="address" ><strong>Probezeit</strong></label>
+                                                                    </div>
+                                                                    <div class="col-md-5">
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <input  style="width: 36px;" type="radio" name="arbeitgeber_probezeit" value="True" class="form-control1" placeholder="123 Main Street" id="id_address2">
+                                                                            </div>
+                                                                            <div class="col-md-4" style="margin-top: 8px;">
+                                                                                <strong >Yes</strong>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <input  style="width: 36px;" type="radio" name="arbeitgeber_probezeit" value="False" class="form-control1" placeholder="123 Main Street" id="id_address2">
+                                                                            </div>
+                                                                            <div class="col-md-4" style="margin-top: 8px;">
+                                                                                <strong >No</strong>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="card shadow">
+                                                <div class="card-header py-3">
+                                                    <p class="text-primary m-0 font-weight-bold">Derzeitiger Vermieter</p>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="form-row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label for="address"><strong>Name</strong></label>
+                                                                <input type="text" name="vermieter_name" class="form-control custom_input" placeholder="Name" id="id_address1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label for="address2"><strong>Anschrift</strong></label>
+                                                                <input type="text" name="vermieter_anschrift" class="form-control custom_input" placeholder="Anschrift" id="id_address2">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label for="address"><strong>Telefonnummer</strong></label>
+                                                                <input type="text" name="vermieter_telefonnummer" class="form-control custom_input" placeholder="Telefonnummer" id="id_address1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                       
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="card shadow">
+                                                <div class="card-header py-3">
+                                                    <p class="text-primary m-0 font-weight-bold">Weitere Fragen</p>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="form-row" style="text-align: left;margin-bottom: 10px;">
+                                                        <div class="col-md-7">
+                                                            <div class="form-group">
+
+                                                               <!--  <label for="address" style="width: 80%;float: left;margin-top: 7px;margin-right: 18px;"><strong>Bestehen Mietrückstände aus bisherigen Mietverhältnissen?</strong></label>
+                                                                <input style="width: 36px;" type="radio" name="mietrueckstellungen" value="True" class="form-control1" placeholder="123 Main Street" id="id_address2">
+                                                                <strong style="position: relative;top: -13px;">Yes</strong>
+                                                                <input style="width: 36px;" type="radio" name="mietrueckstellungen" value="False" class="form-control1" placeholder="123 Main Street" id="id_address2">
+                                                                <strong style="position: relative;top: -13px;">No</strong> -->
+
+
+
+                                                                <div class="row">
+                                                                    <div class="col-md-8">
+                                                                        <label for="address" ><strong>Bestehen Mietrückstände aus bisherigen Mietverhältnissen?</strong></label>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <input style="width: 36px;" type="radio" name="mietrueckstellungen" value="True" class="form-control1" placeholder="123 Main Street" id="id_address2">
+                                                                            </div>
+                                                                            <div class="col-md-4" style="margin-top: 8px;">
+                                                                                <strong >Yes</strong>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <input style="width: 36px;" type="radio" name="mietrueckstellungen" value="False" class="form-control1" placeholder="123 Main Street" id="id_address2">
+                                                                            </div>
+                                                                            <div class="col-md-4" style="margin-top: 8px;">
+                                                                                <strong >No</strong>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row" style="text-align: left;margin-bottom: 10px;">
+                                                        <div class="col-md-7">
+                                                            <div class="form-group">
+
+
+                                                              <!--   <label for="address" style="width: 80%;float: left;margin-top: 7px;margin-right: 18px;"><strong>In den letzten fünf Jahren wurde Räumungsklage gegen mich erhoben.</strong></label>
+                                                                <input style="width: 36px;" type="radio" name="raeumungsklage" value="True"  class="click_yes form-control1" data-yes='1' placeholder="123 Main Street" id="id_address2">
+                                                                <strong style="position: relative;top: -13px;">Yes</strong>
+                                                                <input style="width: 36px;" type="radio" name="raeumungsklage" value="False" class="click_no form-control1" data-no='1' data-name="raeumungsklage_date" placeholder="123 Main Street" id="id_address2">
+                                                                <strong style="position: relative;top: -13px;">No</strong> -->
+
+                                                                <div class="row">
+                                                                    <div class="col-md-8">
+                                                                        <label for="address" ><strong>In den letzten fünf Jahren wurde Räumungsklage gegen mich erhoben.</strong></label>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <input style="width: 36px;" type="radio" name="raeumungsklage" value="True"  class="click_yes form-control1" data-yes='1' placeholder="123 Main Street" id="id_address2">
+                                                                            </div>
+                                                                            <div class="col-md-4" style="margin-top: 8px;">
+                                                                                <strong >Yes</strong>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <input style="width: 36px;" type="radio" name="raeumungsklage" value="False" class="click_no form-control1" data-no='1' data-name="raeumungsklage_date" placeholder="123 Main Street" id="id_address2">
+                                                                            </div>
+                                                                            <div class="col-md-4" style="margin-top: 8px;">
+                                                                                <strong >No</strong>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <div class="form-group" style="margin-left: 27px;">
+                                                                <label for="address" style="width: 181px;float: left;margin-top: 7px;"><strong>If yes,when</strong></label>
+                                                                <input style="width: 51%" type="date" name="raeumungsklage_date" class="form-control whenbox-1 raeumungsklage_date" placeholder="123 Main Street" disabled id="id_address1">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row" style="text-align: left;margin-bottom: 10px;">
+                                                        <div class="col-md-7">
+                                                            <div class="form-group">
+
+
+                                                        <!--         <label for="address" style="width: 80%;float: left;margin-top: 7px;margin-right: 18px;"><strong>In den letzten fünf Jahren wurde Zwangsvollstreckung gegen mich eingeleitet(in Zusammaenhang mit Mietverhaltnissen).</strong></label>
+                                                                <input style="width: 36px;" type="radio" name="zwangsvollstraeckung" value="True" class="click_yes form-control1" data-yes='2' placeholder="123 Main Street" id="id_address2">
+                                                                <strong style="position: relative;top: -13px;">Yes</strong>
+                                                                <input style="width: 36px;" type="radio" name="zwangsvollstraeckung" value="False" class="click_no form-control1" data-no='2' data-name="zwangsvollstraeckung_date"  placeholder="123 Main Street" id="id_address2">
+                                                                <strong style="position: relative;top: -13px;">No</strong> -->
+
+
+                                                                <div class="row">
+                                                                    <div class="col-md-8">
+                                                                        <label for="address" ><strong>In den letzten fünf Jahren wurde Zwangsvollstreckung gegen mich eingeleitet(in Zusammaenhang mit Mietverhaltnissen).</strong></label>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <input style="width: 36px;" type="radio" name="zwangsvollstraeckung" value="True" class="click_yes form-control1" data-yes='2' placeholder="123 Main Street" id="id_address2">
+                                                                            </div>
+                                                                            <div class="col-md-4" style="margin-top: 8px;">
+                                                                                <strong >Yes</strong>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <input style="width: 36px;" type="radio" name="zwangsvollstraeckung" value="False" class="click_no form-control1" data-no='2' data-name="zwangsvollstraeckung_date"  placeholder="123 Main Street" id="id_address2">
+                                                                            </div>
+                                                                            <div class="col-md-4" style="margin-top: 8px;">
+                                                                                <strong >No</strong>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <div class="form-group" style="margin-left: 27px;">
+                                                                <label for="address" style="width: 181px;float: left;margin-top: 7px;"><strong>If yes,when</strong></label>
+                                                                <input style="width: 51%" type="date" name="zwangsvollstraeckung_date" class="form-control whenbox-2 zwangsvollstraeckung_date" disabled placeholder="123 Main Street" id="id_address1">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row" style="text-align: left;margin-bottom: 10px;">
+                                                        <div class="col-md-7">
+                                                            <div class="form-group">
+
+
+                                                               <!--  <label for="address" style="width: 80%;float: left;margin-top: 7px;margin-right: 18px;"><strong>In den letzten fünf Jahren habe ich eine eidesstattliche Versicherung abgegeben.</strong></label>
+                                                                <input style="width: 36px;" type="radio" name="eid_versicherung" value="True" class="click_yes form-control1" data-yes='3'  placeholder="123 Main Street" id="id_address2">
+                                                                <strong style="position: relative;top: -13px;">Yes</strong>
+                                                                <input style="width: 36px;" type="radio" name="eid_versicherung" value="False" class="click_no form-control1" data-no='3' data-name="eid_versicherung_date"  placeholder="123 Main Street" id="id_address2">
+                                                                <strong style="position: relative;top: -13px;">No</strong> -->
+
+
+                                                                <div class="row">
+                                                                    <div class="col-md-8">
+                                                                        <label for="address" ><strong>In den letzten fünf Jahren habe ich eine eidesstattliche Versicherung abgegeben.</strong></label>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <input style="width: 36px;" type="radio" name="eid_versicherung" value="True" class="click_yes form-control1" data-yes='3'  placeholder="123 Main Street" id="id_address2">
+                                                                            </div>
+                                                                            <div class="col-md-4" style="margin-top: 8px;">
+                                                                                <strong >Yes</strong>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <input style="width: 36px;" type="radio" name="eid_versicherung" value="False" class="click_no form-control1" data-no='3' data-name="eid_versicherung_date"  placeholder="123 Main Street" id="id_address2">
+                                                                            </div>
+                                                                            <div class="col-md-4" style="margin-top: 8px;">
+                                                                                <strong >No</strong>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <div class="form-group" style="margin-left: 27px;">
+                                                                <label for="address" style="width: 181px;float: left;margin-top: 7px;"><strong>If yes,when</strong></label>
+                                                                <input style="width: 51%" type="date" name="eid_versicherung_date" class="form-control whenbox-3 eid_versicherung_date" disabled placeholder="123 Main Street" id="id_address1">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row" style="text-align: left;margin-bottom: 10px;">
+                                                        <div class="col-md-7">
+                                                            <div class="form-group">
+
+
+                                                            <!--     <label for="address" style="width: 80%;float: left;margin-top: 7px;margin-right: 18px;"><strong>In den letzten fünf Jahren wurde ein Insolvenzverfahren gegen mich eröffnet.</strong></label>
+                                                                <input style="width: 36px;" type="radio" name="insolvenzverfahren" value="True" class="click_yes form-control1" data-yes='4'  placeholder="123 Main Street" id="id_address2">
+                                                                <strong style="position: relative;top: -13px;">Yes</strong>
+                                                                <input style="width: 36px;" type="radio" name="insolvenzverfahren" value="False" class="click_no form-control1" data-no='4' data-name="insolvenzverfahren_date"  placeholder="123 Main Street" id="id_address2">
+                                                                <strong style="position: relative;top: -13px;">No</strong> -->
+
+
+                                                                <div class="row">
+                                                                    <div class="col-md-8">
+                                                                        <label for="address" ><strong>In den letzten fünf Jahren wurde ein Insolvenzverfahren gegen mich eröffnet.</strong></label>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <input style="width: 36px;" type="radio" name="insolvenzverfahren" value="True" class="click_yes form-control1" data-yes='4'  placeholder="123 Main Street" id="id_address2">
+                                                                            </div>
+                                                                            <div class="col-md-4" style="margin-top: 8px;">
+                                                                                <strong >Yes</strong>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <input style="width: 36px;" type="radio" name="insolvenzverfahren" value="False" class="click_no form-control1" data-no='4' data-name="insolvenzverfahren_date"  placeholder="123 Main Street" id="id_address2">
+                                                                            </div>
+                                                                            <div class="col-md-4" style="margin-top: 8px;">
+                                                                                <strong >No</strong>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <div class="form-group" style="margin-left: 27px;">
+                                                                <label for="address" style="width: 181px;float: left;margin-top: 7px;"><strong>If yes,when</strong></label>
+                                                                <input style="width: 51%" type="date" name="insolvenzverfahren_date" class="form-control whenbox-4 insolvenzverfahren_date" disabled placeholder="" id="id_address1">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row" style="text-align: left;margin-bottom: 10px;">
+                                                        <div class="col-md-7">
+                                                            <div class="form-group">
+
+
+
+                                                          <!--       <label for="address" style="width: 80%;float: left;margin-top: 7px;margin-right: 18px;"><strong>Vorstrafen / Haftbefehl (in Zusammaenhang mit Mietverhaltnissen)</strong></label>
+                                                                <input style="width: 36px;" type="radio" name="vorstrafen" value="True" class="click_yes form-control1" data-yes='5'  placeholder="123 Main Street" id="id_address2">
+                                                                <strong style="position: relative;top: -13px;">Yes</strong>
+                                                                <input style="width: 36px;" type="radio" name="vorstrafen" value="False" class="click_no form-control1" data-no='5' data-name="vorstrafen_date"  placeholder="123 Main Street" id="id_address2">
+                                                                <strong style="position: relative;top: -13px;">No</strong>
+ -->
+
+                                                                <div class="row">
+                                                                    <div class="col-md-8">
+                                                                        <label for="address" ><strong>Vorstrafen / Haftbefehl (in Zusammaenhang mit Mietverhaltnissen)</strong></label>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <input style="width: 36px;" type="radio" name="vorstrafen" value="True" class="click_yes form-control1" data-yes='5'  placeholder="123 Main Street" id="id_address2">
+                                                                            </div>
+                                                                            <div class="col-md-4" style="margin-top: 8px;">
+                                                                                <strong >Yes</strong>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <input style="width: 36px;" type="radio" name="vorstrafen" value="False" class="click_no form-control1" data-no='5' data-name="vorstrafen_date"  placeholder="123 Main Street" id="id_address2">
+                                                                            </div>
+                                                                            <div class="col-md-4" style="margin-top: 8px;">
+                                                                                <strong >No</strong>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <div class="form-group" style="margin-left: 27px;">
+                                                                <label for="address" style="width: 181px;float: left;margin-top: 7px;"><strong>If yes,when</strong></label>
+                                                                <input style="width: 51%" type="date" name="vorstrafen_date" class="form-control whenbox-5 vorstrafen_date" disabled placeholder="" id="id_address1">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row" style="text-align: left;margin-bottom: 10px;">
+                                                        <div class="col-md-7">
+                                                            <div class="form-group">
+
+
+                                                             <!--    <label for="address" style="width: 80%;float: left;margin-top: 7px;margin-right: 18px;"><strong>Ich beziehe Sozialleistungen zur Zahlung der Miete / Kaution</strong></label>
+                                                                <input style="width: 36px;" type="radio" name="sozialleistungen" value="True" class="click_yes form-control1" data-yes='6'  placeholder="123 Main Street" id="id_address2">
+                                                                <strong style="position: relative;top: -13px;">Yes</strong>
+                                                                <input style="width: 36px;" type="radio" name="sozialleistungen" value="False" class="click_no form-control1" data-no='6' data-name="sozialleistungen_beschreibung"  placeholder="123 Main Street" id="id_address2">
+                                                                <strong style="position: relative;top: -13px;">No</strong> -->
+
+
+
+                                                                <div class="row">
+                                                                    <div class="col-md-8">
+                                                                        <label for="address" ><strong>Ich beziehe Sozialleistungen zur Zahlung der Miete / Kaution</strong></label>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <input style="width: 36px;" type="radio" name="sozialleistungen" value="True" class="click_yes form-control1" data-yes='6'  placeholder="123 Main Street" id="id_address2">
+                                                                            </div>
+                                                                            <div class="col-md-4" style="margin-top: 8px;">
+                                                                                <strong >Yes</strong>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <input style="width: 36px;" type="radio" name="sozialleistungen" value="False" class="click_no form-control1" data-no='6' data-name="sozialleistungen_beschreibung"  placeholder="123 Main Street" id="id_address2">
+                                                                            </div>
+                                                                            <div class="col-md-4" style="margin-top: 8px;">
+                                                                                <strong >No</strong>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <div class="form-group" style="margin-left: 27px;">
+                                                                <label for="address" style="width: 181px;float: left;margin-top: 7px;"><strong>If yes, in welchem Umfang, z.B. Wohngeld Sozialhilfe</strong></label>
+                                                                <input style="width: 51%" type="text" name="sozialleistungen_beschreibung" class="form-control whenbox-6 sozialleistungen_beschreibung" disabled placeholder="" id="id_address1">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row" style="text-align: left;margin-bottom: 10px;">
+                                                        <div class="col-md-7">
+                                                            <div class="form-group">
+
+
+
+                                                             <!--    <label for="address" style="width: 80%;float: left;margin-top: 7px;margin-right: 18px;"><strong>Ist einge gewerbliche Nutzung der Wohnung beabsichtigt?</strong></label>
+                                                                <input style="width: 36px;" type="radio" name="gewerbliche_nutzung" value="True" class="click_yes form-control1" data-yes='7'  placeholder="123 Main Street" id="id_address2">
+                                                                <strong style="position: relative;top: -13px;">Yes</strong>
+                                                                <input style="width: 36px;" type="radio" name="gewerbliche_nutzung" value="False" class="click_no form-control1" data-no='7' data-name="gewerbliche_nutzung_zweck"  placeholder="123 Main Street" id="id_address2">
+                                                                <strong style="position: relative;top: -13px;">No</strong> -->
+
+
+
+                                                                <div class="row">
+                                                                    <div class="col-md-8">
+                                                                        <label for="address" ><strong>Ist einge gewerbliche Nutzung der Wohnung beabsichtigt?</strong></label>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <input style="width: 36px;" type="radio" name="gewerbliche_nutzung" value="True" class="click_yes form-control1" data-yes='7'  placeholder="123 Main Street" id="id_address2">
+                                                                            </div>
+                                                                            <div class="col-md-4" style="margin-top: 8px;">
+                                                                                <strong >Yes</strong>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <input style="width: 36px;" type="radio" name="gewerbliche_nutzung" value="False" class="click_no form-control1" data-no='7' data-name="gewerbliche_nutzung_zweck"  placeholder="123 Main Street" id="id_address2">
+                                                                            </div>
+                                                                            <div class="col-md-4" style="margin-top: 8px;">
+                                                                                <strong >No</strong>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <div class="form-group" style="margin-left: 27px;">
+                                                                <label for="address" style="width: 181px;float: left;margin-top: 7px;"><strong>If yes,Zweck angeben</strong></label>
+                                                                <input style="width: 51%" type="text" name="gewerbliche_nutzung_zweck" class="form-control whenbox-7 gewerbliche_nutzung_zweck" disabled placeholder="" id="id_address1">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row" style="text-align: left;margin-bottom: 10px;">
+                                                        <div class="col-md-7">
+                                                            <div class="form-group">
+
+
+
+                                                            <!--     <label for="address" style="width: 80%;float: left;margin-top: 7px;margin-right: 18px;"><strong>Tierhaltung beabsichtigt?                                     </strong></label>
+                                                                <input style="width: 36px;" type="radio" name="tierhaltung" value="True" class="click_yes form-control1" data-yes='8'  placeholder="123 Main Street" id="id_address2">
+                                                                <strong style="position: relative;top: -13px;">Yes</strong>
+                                                                <input style="width: 36px;position: relative;float: right;right: 60px;" type="radio" name="tierhaltung" value="False" class="click_no form-control1" data-no='8' data-name="tierhaltung_beschreibung"  placeholder="123 Main Street" id="id_address2">
+                                                                <strong style="position: relative;top: 11px;float: right;right: -4px;">No</strong> -->
+
+
+
+                                                                <div class="row">
+                                                                    <div class="col-md-8">
+                                                                        <label for="address" ><strong>Tierhaltung beabsichtigt?                             </strong></label>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <input style="width: 36px;" type="radio" name="tierhaltung" value="True" class="click_yes form-control1" data-yes='8'  placeholder="123 Main Street" id="id_address2">
+                                                                            </div>
+                                                                            <div class="col-md-4" style="margin-top: 8px;">
+                                                                                <strong >Yes</strong>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <input style="width: 36px;" type="radio" name="tierhaltung" value="False" class="click_no form-control1" data-no='8' data-name="tierhaltung_beschreibung"  placeholder="123 Main Street" id="id_address2">
+                                                                            </div>
+                                                                            <div class="col-md-4" style="margin-top: 8px;">
+                                                                                <strong >No</strong>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <div class="form-group" style="margin-left: 27px;">
+                                                                <label for="address" style="width: 181px;float: left;margin-top: 7px;"><strong>If yes, Teiert/Rasse</strong></label>
+                                                                <input style="width: 51%" type="text" name="tierhaltung_beschreibung" class="form-control whenbox-8 tierhaltung_beschreibung" disabled placeholder="" id="tierhaltung_beschreibung">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin-top: 20px;">
+                                        <button class="btn btn-primary" value="contactinfoform" style="margin-right: 5px;" stype="submit">Save</button>
+                                        <a href="{% url 'index' %}" class="btn btn-success" >Back</a>
+                                    </div>
+                                 </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+    
+    <footer class="footer" style="text-align: center;fill: #ff9500;height: 43px;box-shadow: 0 0 15px rgb(56 23 23 / 32%);">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" style="margin-top: 12px;">
+            <title>facebook</title>
+            <path
+                d="M17 1h-14c-1.1 0-2 0.9-2 2v14c0 1.101 0.9 2 2 2h7v-7h-2v-2.475h2v-2.050c0-2.164 1.212-3.684 3.766-3.684l1.803 0.002v2.605h-1.197c-0.994 0-1.372 0.746-1.372 1.438v1.69h2.568l-0.568 2.474h-2v7h4c1.1 0 2-0.899 2-2v-14c0-1.1-0.9-2-2-2z">
+            </path>
+        </svg>
+
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" style="margin-top: 12px;">
+            <title>twitter</title>
+            <path
+                d="M17.316 6.246c0.008 0.162 0.011 0.326 0.011 0.488 0 4.99-3.797 10.742-10.74 10.742-2.133 0-4.116-0.625-5.787-1.697 0.296 0.035 0.596 0.053 0.9 0.053 1.77 0 3.397-0.604 4.688-1.615-1.651-0.031-3.046-1.121-3.526-2.621 0.23 0.043 0.467 0.066 0.71 0.066 0.345 0 0.679-0.045 0.995-0.131-1.727-0.348-3.028-1.873-3.028-3.703 0-0.016 0-0.031 0-0.047 0.509 0.283 1.092 0.453 1.71 0.473-1.013-0.678-1.68-1.832-1.68-3.143 0-0.691 0.186-1.34 0.512-1.898 1.861 2.285 4.644 3.787 7.781 3.945-0.064-0.277-0.097-0.564-0.097-0.861 0-2.084 1.689-3.773 3.774-3.773 1.086 0 2.067 0.457 2.756 1.191 0.859-0.17 1.667-0.484 2.397-0.916-0.282 0.881-0.881 1.621-1.66 2.088 0.764-0.092 1.49-0.293 2.168-0.594-0.506 0.758-1.146 1.422-1.884 1.953z">
+            </path>
+        </svg>
+
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" style="margin-top: 12px;">
+            <title>youtube</title>
+            <path
+                d="M10 2.3c-9.828 0-10 0.874-10 7.7s0.172 7.7 10 7.7 10-0.874 10-7.7-0.172-7.7-10-7.7zM13.205 10.334l-4.49 2.096c-0.393 0.182-0.715-0.022-0.715-0.456v-3.948c0-0.433 0.322-0.638 0.715-0.456l4.49 2.096c0.393 0.184 0.393 0.484 0 0.668z">
+            </path>
+        </svg>
+    </footer>
+
+
+
+</body>
+    
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script async src="{% static 'bootstrap.min.js' %}"></script>
+<script src="{% static 'jquery.js' %}"></script>
+<script src="{% static 'selectize.js' %}"></script>
+
+<script>
+    $(document).ready(function(){
+        $("#familienstands").selectize({maxItems:1});
+    });
+</script>
+<script>
+    $(document).on('click', '.click_yes', function(e){
+        console.log($(this).data('yes'));
+        let number = $(this).data('yes');
+        $('.whenbox-'+number).prop('disabled',false);
+    });
+    $(document).on('click', '.click_no', function(e){
+        console.log($(this).data('no'));
+        let number = $(this).data('no');
+        
+        let name = $(this).data('name');
+        $('.whenbox-'+number).prop('disabled',true);
+        $("."+name).val("");
+
+    });
+</script>
+</html>
