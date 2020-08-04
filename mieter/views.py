@@ -275,10 +275,15 @@ class UpdateActiveInactive(LoginRequiredMixin, View):
 	def get(self, request, *args, **kwargs):
 		wunschwohnungid = self.request.GET.get('wunschwohnungid')
 		btn = self.request.GET.get('btn')
-
-		BOOL_CHOICES = ((None, 'N/A'), (True, 'Yes'), (False, 'No'))
+		print(wunschwohnungid)
+		print(btn)
+		if btn:
+			check = 0
+		else:
+			check = 1
+		BOOL_CHOICES = ((True, 'Yes'), (False, 'No'))
 		wunschwohnung = Wunschwohnung.objects.get(pk=wunschwohnungid)
-		wunschwohnung.aktiv=BOOL_CHOICES[int(btn)][0]
+		wunschwohnung.aktiv=BOOL_CHOICES[int(check)][0]
 		wunschwohnung.save()
 		
 		return HttpResponse(json.dumps("ok"), content_type="application/json")

@@ -30,6 +30,8 @@
         }
         .custom_input , .selectize-input{
             border: 1px solid #ff9500;
+            text-align: left;
+            font-size: 16px;
 
         }
         .selectize-input:focus {
@@ -777,8 +779,9 @@
                                         </div>
                                     </div>
                                     <div class="form-group" style="margin-top: 20px;">
-                                        <button class="btn btn-primary" value="contactinfoform" style="margin-right: 5px;" stype="submit">Save</button>
-                                        <a href="{% url 'index' %}" class="btn btn-success" >Back</a>
+                                        <a data-toggle="modal" data-target="#back_modal" class="btn" style="background: white;color: #ff9500;border: 1px solid #ff9500" >Back</a>
+                                        <button class="btn" value="contactinfoform" style="margin-right: 5px;background: #ff9500;color: white;" stype="submit">Save</button>
+                                        
                                     </div>
                                  </form>
                             </div>
@@ -788,7 +791,23 @@
             </div>
         </section>
 
-
+                                                          <div class="modal fade" id="back_modal" role="dialog" tabindex="-1">
+                                                              <div class="modal-dialog" role="document">
+                                                                  <div class="modal-content">
+                                                                      <div class="modal-header">
+                                                                          <h4 class="modal-title" style="text-align: center">Are you sure?</h4>
+                                                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                                      </div>
+                                                                      <div class="modal-body">
+                                                                          <p>Changes are not saved!</p>
+                                                                      </div>
+                                                                      <div class="modal-footer">
+                                                                        <a type="button" href="{% url 'index' %}" class="btn btn-danger ">Back</a>
+                                                                          <button id="modal-close" class="btn btn-light" type="button" data-dismiss="modal" aria-label="Close" autofocus>Close</button>
+                                                                      </div>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
     
     <footer class="footer" style="text-align: center;fill: #ff9500;height: 43px;box-shadow: 0 0 15px rgb(56 23 23 / 32%);">
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" style="margin-top: 12px;">

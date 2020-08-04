@@ -71,6 +71,8 @@ class Mieterperson(models.Model):
 class Familienstand(models.Model):
 	familienstand = models.CharField(max_length=200)
 
+	class Meta:
+		ordering = ('familienstand',)
 	def __str__(self):
 		return f"{self.familienstand}"
 
@@ -85,6 +87,8 @@ class MieterpersonFamilienstand(models.Model):
 # All about Nebenmieter form
 class Beziehung(models.Model):
 	beziehung = models.CharField(max_length=200)
+	class Meta:
+		ordering = ('beziehung',)
 
 	def __str__(self):
 		return f"{self.beziehung}"
@@ -106,7 +110,7 @@ class NebenmieterBeziehung(models.Model):
 
 
 class Wunschwohnung(models.Model):
-	BOOL_CHOICES = ((None, 'N/A'), (True, 'Yes'), (False, 'No'))
+	BOOL_CHOICES = ((True, 'Yes'), (False, 'No'))
 	mieter = models.ForeignKey(User, on_delete=models.CASCADE)
 
 	# Most important information
@@ -128,13 +132,15 @@ class Wunschwohnung(models.Model):
 	keller = models.BooleanField('Keller', default=None)
 	gaeste_wc = models.BooleanField('Gäste-WC', default=None)
 
-	aktiv = models.BooleanField('Gibt an, ob Gesuch aktiv ist', choices=BOOL_CHOICES, null=True, blank=True, default=None)
+	aktiv = models.BooleanField('Gibt an, ob Gesuch aktiv ist', choices=BOOL_CHOICES, null=True, blank=True, default=False)
 
 	def __str__(self):
 		return f"{self.pk} {self.mieter.email}"
 
 class Stadtteil(models.Model):
 	stadtteil = models.CharField(max_length=200)
+	class Meta:
+		ordering = ('stadtteil',)
 
 	def __str__(self):
 		return f"{self.stadtteil}"
@@ -147,6 +153,8 @@ class WunschwohnungStadtteil(models.Model):
 
 class Wohnungstyp(models.Model):
 	wohnungstyp = models.CharField(max_length=200)
+	class Meta:
+		ordering = ('wohnungstyp',)
 
 	def __str__(self):
 		return f"{self.wohnungstyp}"
@@ -165,6 +173,8 @@ class Documents(models.Model):
 
 class Type(models.Model):
 	type = models.CharField(max_length=200)
+	class Meta:
+		ordering = ('type',)
 
 	def __str__(self):
 		return f"{self.type}"

@@ -29,6 +29,8 @@
         }
         .custom_input , .selectize-input{
             border: 1px solid #ff9500;
+            text-align: left;
+            font-size: 16px;
 
         }
         .selectize-input:focus {
@@ -52,6 +54,83 @@
             border-radius: .25rem;
             height: 39px;
         }
+
+
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  float:right;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input.default:checked + .slider {
+  background-color: #444;
+}
+input.primary:checked + .slider {
+  background-color: #2196F3;
+}
+input.success:checked + .slider {
+  background-color: #ff9500;
+}
+input.info:checked + .slider {
+  background-color: #3de0f5;
+}
+input.warning:checked + .slider {
+  background-color: #FFC107;
+}
+input.danger:checked + .slider {
+  background-color: #f44336;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
     </style>
 
 <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar" style="padding: 0.3rem;">
@@ -152,7 +231,7 @@
                                                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                                                   </div>
                                                                   <div class="modal-body">
-                                                                      <p>Are you sure you want to delete this member?</p>
+                                                                      <p>Are you sure you want to delete this?</p>
                                                                   </div>
                                                                   <div class="modal-footer">
                                                                     <a type="button" href="{% url 'mieterperson_delete' mieterperson.pk %}" class="btn btn-danger ">Delete</a>
@@ -218,7 +297,7 @@
                                                                           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                                                       </div>
                                                                       <div class="modal-body">
-                                                                          <p>Are you sure you want to delete this member?</p>
+                                                                          <p>Are you sure you want to delete this?</p>
                                                                       </div>
                                                                       <div class="modal-footer">
                                                                         <a type="button" href="{% url 'nebenmieter_detele' nebenmieter.pk %}" class="btn btn-danger ">Delete</a>
@@ -275,21 +354,12 @@
                                                             </div>
                                                             <div class="col-md-1">
                                                                 <div>
-                                                                  {% if wunschwohnung.aktiv == True %}
-                                                                      <button class="btn active_inactive_btn" style="background: gray;color: white;" data-wunschwohnungid={{wunschwohnung.pk}} data-btn="1" disabled >Active</button>
-                                                                  {% else %}
-                                                                      <button class="btn active_inactive_btn" style="background: #570d58;color: white;" data-wunschwohnungid={{wunschwohnung.pk}} data-btn="1" >Active</button>
 
-                                                                  {% endif %}
-                                                                    
-
-                                                                    {% if wunschwohnung.aktiv == False %}
-                                                                        <button class="btn active_inactive_btn" data-wunschwohnungid={{wunschwohnung.pk}} data-btn="2" disabled style="position: relative;right: -75px;top: -38px;background: gray;color: white;">Inactive</button>
-                                                                    {% else %}
-                                                                        <button class="btn active_inactive_btn" data-wunschwohnungid={{wunschwohnung.pk}} data-btn="2" style="position: relative;right: -75px;top: -38px;background: #570d58;color: white;">Inactive</button>
-
-                                                                    {% endif %}
-                                                                    
+                                                                <label class="switch" >
+                                                                  <input name="kk_{{wunschwohnung.pk}}" id="kk_{{wunschwohnung.pk}}" type="checkbox" data-wunschwohnungid={{wunschwohnung.pk}} {% if wunschwohnung.aktiv == True %} checked {% endif %} class="success active_inactive_btn" >
+                                                                  <span class="slider round"></span>
+                                                                </label>
+                                                                                            
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -301,7 +371,7 @@
                                                                           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                                                       </div>
                                                                       <div class="modal-body">
-                                                                          <p>Are you sure you want to delete this member?</p>
+                                                                          <p>Are you sure you want to delete this?</p>
                                                                       </div>
                                                                       <div class="modal-footer">
                                                                         <a type="button" href="{% url 'wunschwohnung_detele' wunschwohnung.pk %}" class="btn btn-danger ">Delete</a>
@@ -336,7 +406,8 @@
                                                         <div class="row">
                                                             <div class="col-md-2">
                                                                 <div>
-                                                                    <p>{{document.file|default_if_none:""}}</p>
+                                                                    <!-- <p>{{document.file|default_if_none:""}}</p> -->
+                                                                    <a href="{{document.file.url}}" class="card-link"  download>{{document.file|default_if_none:""}} </a>
                                                                 </div> 
                                                             </div>
                                                             <div class="col-md-2">
@@ -359,7 +430,7 @@
                                                                           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                                                       </div>
                                                                       <div class="modal-body">
-                                                                          <p>Are you sure you want to delete this member?</p>
+                                                                          <p>Are you sure you want to delete this?</p>
                                                                       </div>
                                                                       <div class="modal-footer">
                                                                         <a type="button" href="{% url 'document_detele' document.pk %}" class="btn btn-danger ">Delete</a>
@@ -493,9 +564,10 @@
 
     });
     $(document).on('click', '.active_inactive_btn', function(e){
-        e.preventDefault();
+
         let wunschwohnungid = $(this).data('wunschwohnungid');
-        let btn = $(this).data('btn');
+        let btn = $("input[name='kk_" +wunschwohnungid+ "']:checked").val();
+        console.log(btn);
         $.ajax({
           url: '/update/active_inactive/',
           datatype: 'json',
