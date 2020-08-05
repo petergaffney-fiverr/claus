@@ -374,9 +374,11 @@
 <script src="{% static 'selectize.js' %}"></script>
 
 <script>
+    let stadtteils = "{{stadtteils.count}}";
+    let wohnungstyps = "{{wohnungstyps.count}}";
     $(document).ready(function(){
-        $("#stadtteil").selectize({maxItems:5});
-        $("#wohnungstyp").selectize({maxItems:5});
+        $("#stadtteil").selectize({maxItems:stadtteils});
+        $("#wohnungstyp").selectize({maxItems:wohnungstyps});
     });
 </script>
 

@@ -463,7 +463,7 @@
                                                         <div class="col-md-5">
                                                             <div class="form-group" style="margin-left: 27px;">
                                                                 <label for="address" style="width: 181px;float: left;margin-top: 7px;"><strong>If yes,when</strong></label>
-                                                                <input style="width: 51%" type="date" name="raeumungsklage_date" value="{{information.raeumungsklage_date|date:'Y-m-d'}}" class="form-control whenbox-1 raeumungsklage_date"  {% if information.raeumungsklage != None and not information.raeumungsklage %} disabled {% endif %} placeholder="123 Main Street" id="id_address1">
+                                                                <input style="width: 51%" type="date" name="raeumungsklage_date" value="{{information.raeumungsklage_date|date:'Y-m-d'}}" class="form-control whenbox-1 raeumungsklage_date"  {% if not information.raeumungsklage %} disabled {% endif %} placeholder="123 Main Street" id="id_address1">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -509,7 +509,7 @@
                                                         <div class="col-md-5">
                                                             <div class="form-group" style="margin-left: 27px;">
                                                                 <label for="address" style="width: 181px;float: left;margin-top: 7px;"><strong>If yes,when</strong></label>
-                                                                <input style="width: 51%" type="date" name="zwangsvollstraeckung_date"  value="{{information.zwangsvollstraeckung_date|date:'Y-m-d'}}" class="form-control whenbox-2 zwangsvollstraeckung_date" {% if information.zwangsvollstraeckung != None and not information.zwangsvollstraeckung %} disabled {% endif %} placeholder="123 Main Street" id="id_address1">
+                                                                <input style="width: 51%" type="date" name="zwangsvollstraeckung_date"  value="{{information.zwangsvollstraeckung_date|date:'Y-m-d'}}" class="form-control whenbox-2 zwangsvollstraeckung_date" {% if not information.zwangsvollstraeckung %} disabled {% endif %} placeholder="123 Main Street" id="id_address1">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -556,7 +556,7 @@
                                                         <div class="col-md-5">
                                                             <div class="form-group" style="margin-left: 27px;">
                                                                 <label for="address" style="width: 181px;float: left;margin-top: 7px;"><strong>If yes,when</strong></label>
-                                                                <input style="width: 51%" type="date" name="eid_versicherung_date" class="form-control whenbox-3 eid_versicherung_date" value="{{information.eid_versicherung_date|date:'Y-m-d'}}" placeholder="123 Main Street"  {% if information.eid_versicherung != None and not information.eid_versicherung %} disabled {% endif %} id="id_address1">
+                                                                <input style="width: 51%" type="date" name="eid_versicherung_date" class="form-control whenbox-3 eid_versicherung_date" value="{{information.eid_versicherung_date|date:'Y-m-d'}}" placeholder="123 Main Street"  {% if  not information.eid_versicherung %} disabled {% endif %} id="id_address1">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -601,7 +601,7 @@
                                                         <div class="col-md-5">
                                                             <div class="form-group" style="margin-left: 27px;">
                                                                 <label for="address" style="width: 181px;float: left;margin-top: 7px;"><strong>If yes,when</strong></label>
-                                                                <input style="width: 51%" type="date" name="insolvenzverfahren_date"  value ="{{information.insolvenzverfahren_date|date:'Y-m-d'}}" class="form-control whenbox-4 insolvenzverfahren_date"  {% if information.insolvenzverfahren != None and not information.insolvenzverfahren %} disabled {% endif %} placeholder="" id="id_address1">
+                                                                <input style="width: 51%" type="date" name="insolvenzverfahren_date"  value ="{{information.insolvenzverfahren_date|date:'Y-m-d'}}" class="form-control whenbox-4 insolvenzverfahren_date"  {% if not information.insolvenzverfahren %} disabled {% endif %} placeholder="" id="id_address1">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -646,7 +646,7 @@
                                                         <div class="col-md-5">
                                                             <div class="form-group" style="margin-left: 27px;">
                                                                 <label for="address" style="width: 181px;float: left;margin-top: 7px;"><strong>If yes,when</strong></label>
-                                                                <input style="width: 51%" type="date" name="vorstrafen_date" value="{{information.vorstrafen_date|date:'Y-m-d'}}" class="form-control whenbox-5 vorstrafen_date" {% if information.vorstrafen != None and not information.vorstrafen %} disabled {% endif %}  placeholder="" id="id_address1">
+                                                                <input style="width: 51%" type="date" name="vorstrafen_date" value="{{information.vorstrafen_date|date:'Y-m-d'}}" class="form-control whenbox-5 vorstrafen_date" {% if  not information.vorstrafen %} disabled {% endif %}  placeholder="" id="id_address1">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -692,7 +692,7 @@
                                                         <div class="col-md-5">
                                                             <div class="form-group" style="margin-left: 27px;">
                                                                 <label for="address" style="width: 181px;float: left;margin-top: 7px;"><strong>If yes, in welchem Umfang, z.B. Wohngeld Sozialhilfe</strong></label>
-                                                                <input style="width: 51%" type="text" name="sozialleistungen_beschreibung" value="{{information.sozialleistungen_beschreibung|default_if_none:""}}" class="form-control whenbox-6 sozialleistungen_beschreibung" {% if information.sozialleistungen != None and not information.sozialleistungen %} disabled {% endif %} placeholder="" id="id_address1">
+                                                                <input style="width: 51%" type="text" name="sozialleistungen_beschreibung" value="{{information.sozialleistungen_beschreibung|default_if_none:""}}" class="form-control whenbox-6 sozialleistungen_beschreibung" {% if  not information.sozialleistungen %} disabled {% endif %} placeholder="" id="id_address1">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -738,7 +738,7 @@
                                                         <div class="col-md-5">
                                                             <div class="form-group" style="margin-left: 27px;">
                                                                 <label for="address" style="width: 181px;float: left;margin-top: 7px;"><strong>If yes,Zweck angeben</strong></label>
-                                                                <input style="width: 51%" type="text" name="gewerbliche_nutzung_zweck"  value="{{information.gewerbliche_nutzung_zweck|default_if_none:""}}" class="form-control whenbox-7 gewerbliche_nutzung_zweck" {% if information.gewerbliche_nutzung != None and not information.gewerbliche_nutzung %} disabled {% endif %} placeholder="" id="id_address1">
+                                                                <input style="width: 51%" type="text" name="gewerbliche_nutzung_zweck"  value="{{information.gewerbliche_nutzung_zweck|default_if_none:""}}" class="form-control whenbox-7 gewerbliche_nutzung_zweck" {% if  not information.gewerbliche_nutzung %} disabled {% endif %} placeholder="" id="id_address1">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -784,7 +784,7 @@
                                                         <div class="col-md-5">
                                                             <div class="form-group" style="margin-left: 27px;">
                                                                 <label for="address" style="width: 181px;float: left;margin-top: 7px;"><strong>If yes, Teiert/Rasse</strong></label>
-                                                                <input style="width: 51%" type="text" name="tierhaltung_beschreibung"  value="{{information.tierhaltung_beschreibung|default_if_none:""}}" class="form-control whenbox-8 tierhaltung_beschreibung" {% if information.tierhaltung != None and not information.tierhaltung %} disabled {% endif %} placeholder="" id="tierhaltung_beschreibung">
+                                                                <input style="width: 51%" type="text" name="tierhaltung_beschreibung"  value="{{information.tierhaltung_beschreibung|default_if_none:""}}" class="form-control whenbox-8 tierhaltung_beschreibung" {% if  not information.tierhaltung %} disabled {% endif %} placeholder="" id="tierhaltung_beschreibung">
                                                             </div>
                                                         </div>
                                                     </div>
